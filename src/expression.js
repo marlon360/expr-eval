@@ -2,6 +2,7 @@ import simplify from './simplify';
 import substitute from './substitute';
 import evaluate from './evaluate';
 import expressionToString from './expression-to-string';
+import expressionToGlslString from './expression-to-glsl-string';
 import getSymbols from './get-symbols';
 
 export function Expression(tokens, parser) {
@@ -58,4 +59,8 @@ Expression.prototype.toJSFunction = function (param, variables) {
   return function () {
     return f.apply(expr, arguments);
   };
+};
+Expression.prototype.toGLSL = function (variables) {
+  var glsl = expressionToGlslString(this.simplify(variables).tokens);
+  return glsl;
 };
